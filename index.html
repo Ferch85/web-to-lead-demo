@@ -63,7 +63,19 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>	 
 <script>
- function timestamp() { var response = document.getElementById("g-recaptcha-response"); if (response == null || response.value.trim() == "") {var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);elems["ts"] = JSON.stringify(new Date().getTime());document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems); } } setInterval(timestamp, 500); 
+ function timestamp() { 
+	 var response = document.getElementById("g-recaptcha-response"); 
+	 var submitButton = document.getElementById("submit-button");
+	 if (response && response.value.trim() !== "") {
+		 // CAPTCHA is completed
+		 submitButton.disabled = false;
+	 } else{
+		 var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);
+		 elems["ts"] = JSON.stringify(new Date().getTime());
+		 document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems);
+	 } 
+ } 
+ setInterval(timestamp, 500); 
  $(function() {
     $("#00NDn00000uFndI").datepicker({
       dateFormat: "m/dd/yy" // Custom format: M/dd/yyyy
